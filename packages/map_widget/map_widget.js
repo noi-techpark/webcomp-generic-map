@@ -48,9 +48,13 @@ class MapWidget extends LitElement {
     let columns_layer_array = [];
 
     this.stations.map(station => {
-      const pos = getLatLongFromStationDetail(station);
 
-      let icon2 = L.divIcon({
+      const pos = [
+        station.scoordinate.y, 
+        station.scoordinate.x
+      ];
+
+      let icon = L.divIcon({
         html: '<div class="marker_green"><div>&nbsp;</div></div>',
         iconSize: L.point(25, 25)
       });
@@ -78,8 +82,8 @@ class MapWidget extends LitElement {
 
       let popup = L.popup().setContent(popupCont);
 
-      let marker = L.marker([pos.lat, pos.lng], {
-        icon: icon2,
+      let marker = L.marker(pos, {
+        icon: icon,
       }).bindPopup(popup);
 
       columns_layer_array.push(marker);
