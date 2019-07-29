@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bts": "lerna bootstrap",
+    "bc": "lerna run --parallel --stream build",
+    "wc": "lerna run --parallel --stream watch",
+    "demo": "lerna run --parallel --stream demo",
+    "build-components": "lerna run --parallel --stream build",
+    "watch-components": "lerna run --parallel --stream watch"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "lerna": "^3.13.1"
+  },
+  "name": "noi",
+  "version": "1.0.0"
+}

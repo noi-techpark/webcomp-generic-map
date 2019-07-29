@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+    app:
+        build: 
+            context: .
+            dockerfile: ./dockerfile-node-local
+        working_dir: /code/work
+        command: sh serve.sh
+        volumes:
+            - ./:/code
+        ports:
+            - "8888:8000"

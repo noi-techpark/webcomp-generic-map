@@ -1,0 +1,330 @@
+@import 'colors';
+@import 'mixins';
+
+$map_desktop_height: 700px;
+$mobile-bottom-controls: 24px;
+
+@mixin dimension() {
+  height: $map_desktop_height;
+  width: 100%;
+}
+
+.popupdiv {
+  max-height: 300px;
+  overflow-x: auto;
+}
+
+.map_widget {
+  @media only screen and (min-width: 320px) {
+    @include map_dimensions_tns();
+    font-family: 'Suedtirol';
+    color: $black;
+    background-color: $black-50;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+
+    .controls_container {
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 24px;
+      bottom: $mobile-bottom-controls;
+    }
+    .logo_container {
+      bottom: $mobile-bottom-controls;
+      left: 24px;
+    }
+
+    &.closed {
+      @include map_dimensions_tns();
+      position: relative;
+      height: 30vh;
+      width: 90%;
+      margin: 0 auto;
+
+      .controls_container {
+        bottom: 24px;
+      }
+      .logo_container {
+        bottom: 24px;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 992px) {
+    @include dimension();
+    position: relative;
+    height: $map_desktop_height;
+
+    &.closed {
+      @include dimension();
+      position: relative;
+      margin: auto;
+    }
+
+    .controls_container {
+      bottom: 24px;
+    }
+    .logo_container {
+      bottom: 24px;
+    }
+  }
+
+  @media only screen and (min-width: 992px) {
+    @include dimension();
+    &.closed {
+      @include dimension();
+      width: 100%;
+      margin: auto;
+    }
+  }
+
+  // Apple specific code
+  .controls_container,
+  .logo_container {
+    @include apple-device-mq($iPhone8) {
+      bottom: 78px;
+    }
+    @include apple-device-mq() {
+      bottom: 144px;
+    }
+  }
+}
+
+input[type='text'] {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  overflow: visible;
+  outline: none;
+  padding: 0 8px;
+}
+
+.controls_container {
+  .control {
+    background: $white;
+    border: 0;
+    width: 40px;
+    height: 40px;
+  }
+  .control {
+    &:focus {
+      outline: none;
+    }
+  }
+  .control {
+    img {
+      width: 26px;
+    }
+  }
+}
+
+.controls_container__divider {
+  height: 1px;
+  padding: 0 8px;
+  background: $white;
+}
+.controls_container__divider div {
+  background-color: $black-200;
+  height: 1px;
+}
+
+.logo_container {
+  @media only screen and (min-width: 320px) {
+    position: absolute;
+    width: 40px;
+    justify-content: center;
+    background: $white;
+    z-index: 1000;
+    right: auto;
+    top: auto;
+    display: flex;
+    overflow: hidden;
+  }
+  @media only screen and (min-width: 992px) {
+    right: 24px;
+    left: auto;
+    width: 94px;
+  }
+}
+
+.logo_container .img {
+  @media only screen and (min-width: 320px) {
+    height: 40px;
+    width: 32px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  @media only screen and (min-width: 992px) {
+    width: 86px;
+  }
+}
+
+#map {
+  @media only screen and (min-width: 320px) {
+    height: 100vh;
+    width: 100%;
+    &.closed {
+      height: 30vh;
+    }
+  }
+  @media only screen and (min-width: 678px) {
+    &.closed {
+      height: 30vh;
+    }
+  }
+  @media only screen and (min-width: 992px) {
+    height: $map_desktop_height;
+    width: 100%;
+    &.closed {
+      height: $map_desktop_height;
+    }
+  }
+}
+
+.user_actions_container {
+  @media only screen and (min-width: 320px) {
+    @include transition(top 0.3s ease);
+    position: absolute;
+    top: 70vh;
+    left: 24px;
+    width: calc(100% - 48px);
+    height: calc(100% - 68px);
+    &.open {
+      @include transition(top 0.3s ease);
+      top: 68px;
+    }
+  }
+  @media only screen and (min-width: 678px) {
+    width: 320px;
+    top: 68px;
+  }
+  @include apple-device-mq($iPhone8) {
+    height: calc(100% - 145px);
+  }
+  @include apple-device-mq() {
+    height: calc(100% - 185px);
+  }
+}
+
+.map_widget {
+  &.closed {
+    .user_actions_container {
+      @media only screen and (min-width: 320px) {
+        top: 68px;
+      }
+    }
+  }
+}
+
+.user_actions_container__search_box {
+  @media only screen and (min-width: 320px) {
+    z-index: 100;
+    position: absolute;
+    left: 24px;
+    width: calc(100% - 48px);
+    top: 24px;
+  }
+  @media only screen and (min-width: 992px) {
+    width: 320px;
+  }
+}
+
+.user_actions_container__mobile_filters {
+  @media only screen and (min-width: 320px) {
+    z-index: 100;
+    position: absolute;
+    left: 24px;
+    top: 64px;
+    width: calc(100% - 48px);
+  }
+  @media only screen and (min-width: 992px) {
+    width: 320px;
+  }
+}
+
+select {
+  display: inline-block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  vertical-align: middle;
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+    no-repeat right 0.75rem center/8px 10px;
+  background-color: $white;
+  border: 1px solid $black-300;
+  border-radius: 0;
+  @include appearance(none);
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid $black-50;
+  padding: 0;
+}
+
+.utils--cursor-pointer {
+  cursor: pointer;
+}
+
+textarea {
+  border: 1px solid $black-300;
+  padding: 8px;
+}
+textarea:focus {
+  outline: none;
+}
+
+.marker_cluster__marker {
+  background-color: $green;
+  color: $white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+}
+
+.marker_green {
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.marker_green :first-child {
+  background-color: $green;
+  border-radius: 50%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+}
+
+/* TODO: until icon */
+.leaflet-div-icon {
+  background-color: transparent;
+  border: 0;
+}
