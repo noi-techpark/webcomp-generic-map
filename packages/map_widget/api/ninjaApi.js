@@ -21,10 +21,11 @@ export function callGet(path, params) {
 		});
 }
 
-export async function fetchStations() {
-	return callGet("/flat/CreativeIndustry", {
+export async function fetchStations(type) {
+	console.log(type)
+	return callGet("/flat/" + (type || '*'), {
 			limit: -1,
-			select: "scode,stype,sname,sorigin,scoordinate,smetadata",
+			select: "scode,stype,sname,sorigin,scoordinate,smetadata,pcode",
 			where: "scoordinate.neq.null,sactive.eq.true",
 			distinct: true
 		})

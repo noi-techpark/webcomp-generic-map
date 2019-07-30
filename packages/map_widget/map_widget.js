@@ -4,11 +4,20 @@ import leaflet_mrkcls from 'leaflet.markercluster';
 import style__leaflet from 'leaflet/dist/leaflet.css';
 import style__markercluster from 'leaflet.markercluster/dist/MarkerCluster.css';
 import style from './scss/main.scss';
-import { getStyle } from './utils.js';
+import { getStyle, rainbow } from './utils.js';
 import { fetchStations } from './api/ninjaApi.js';
 
 
 class MapWidget extends LitElement {
+
+  static get properties() {
+    return {
+      propStationTypes: {
+        type: String,
+        attribute: 'station-types'
+      },
+    };
+  }
 
   constructor() {
     super();
@@ -25,6 +34,13 @@ class MapWidget extends LitElement {
 
     /* Data fetched from Open Data Hub */
     this.stations = [];
+    this.stationTypes = {};
+    this.colors = [
+      "green",
+      "blue",
+      "red",
+      "orange"
+    ];
 
     /* Requests */
     this.fetchStations = fetchStations.bind(this);
@@ -44,22 +60,29 @@ class MapWidget extends LitElement {
   }
 
   async drawMap() {
-    await this.fetchStations();
+    await this.fetchStations(this.propStationTypes);
     let columns_layer_array = [];
 
     this.stations.map(station => {
+
+      if (! (station.stype in this.stationTypes)) {
+        let cnt = Object.keys(this.stationTypes).length
+        this.stationTypes[station.stype] = rainbow(4000, Math.random() * 4000);
+      }
 
       const pos = [
         station.scoordinate.y, 
         station.scoordinate.x
       ];
 
+      let fillChar = station.pcode ? '#' : '&nbsp;';
+
       let icon = L.divIcon({
-        html: '<div class="marker_green"><div>&nbsp;</div></div>',
+        html: '<div class="marker"><div style="background-color: ' + this.stationTypes[station.stype] + '">' + fillChar + '</div></div>',
         iconSize: L.point(25, 25)
       });
 
-      let popupCont = '<div class="popup"><b>' + station.sname + '</b>';
+      let popupCont = '<div class="popup"><b>' + station.sname + '</b><br /><i>' + station.stype + '</i>';
       popupCont += '<table>';
       Object.keys(station.smetadata).forEach(key => {
         let value = station.smetadata[key];
@@ -70,6 +93,9 @@ class MapWidget extends LitElement {
             let act_value = value[this.language];
             if (typeof act_value === 'undefined') {
               act_value = value[this.language_default];
+            } 
+            if (typeof act_value === 'undefined') {
+              act_value = '<pre style="background-color: lightgray">' + JSON.stringify(value, null, 2) + '</pre>';
             } 
             popupCont += '<td><div class="popupdiv">' + act_value + '</div></td>';
           } else {

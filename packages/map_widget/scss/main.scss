@@ -302,7 +302,7 @@ textarea:focus {
   height: 36px;
 }
 
-.marker_green {
+.marker {
   background-color: white;
   border-radius: 50%;
   display: flex;
@@ -311,16 +311,29 @@ textarea:focus {
   height: 24px;
 }
 
-.marker_green :first-child {
-  background-color: $green;
+.marker :first-child {
   border-radius: 50%;
   margin: auto;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   width: 16px;
   height: 16px;
+
+  &.green {
+    background-color: $green;
+  }
+  &.blue {
+    background-color: $blue;
+  }
+  &.orange {
+    background-color: $orange;
+  }
+  &.red {
+    background-color: $red;
+  }
 }
 
 /* TODO: until icon */
