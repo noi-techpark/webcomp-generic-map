@@ -5,8 +5,7 @@ import style__leaflet from 'leaflet/dist/leaflet.css';
 import style__markercluster from 'leaflet.markercluster/dist/MarkerCluster.css';
 import style from './scss/main.scss';
 import { getStyle, rainbow } from './utils.js';
-import { fetchStations } from './api/ninjaApi.js';
-
+import { fetchStations,fetchActivities } from './api/ninjaApi.js';
 
 class MapWidget extends LitElement {
 
@@ -16,6 +15,10 @@ class MapWidget extends LitElement {
         type: String,
         attribute: 'station-types'
       },
+      propDomain: {
+        type: String,
+        attribute: 'domain'
+      }
     };
   }
 
@@ -32,18 +35,21 @@ class MapWidget extends LitElement {
     this.language_default = 'en';
     this.language = 'de';
 
-    /* Data fetched from Open Data Hub */
-    this.stations = [];
-    this.stationTypes = {};
-    this.colors = [
-      "green",
-      "blue",
-      "red",
-      "orange"
-    ];
+    /* Data fetched from Open Data Hub */    
+    this.nodes = [];
+
+    // this.stationTypes = {};
+    // this.colors = [
+    //   "green",
+    //   "blue",
+    //   "red",
+    //   "orange"
+    // ];
 
     /* Requests */
-    this.fetchStations = fetchStations.bind(this);
+    
+        this.fetchStations = fetchStations.bind(this);    
+        this.fetchActivities = fetchActivities.bind(this);
   }
 
   async initializeMap() {
@@ -60,62 +66,105 @@ class MapWidget extends LitElement {
   }
 
   async drawMap() {
-    await this.fetchStations(this.propStationTypes);
+
     let columns_layer_array = [];
-
-    this.stations.map(station => {
-
-      if (! (station.stype in this.stationTypes)) {
-        let cnt = Object.keys(this.stationTypes).length
-        this.stationTypes[station.stype] = rainbow(4000, Math.random() * 4000);
-      }
-
-      const pos = [
-        station.scoordinate.y, 
-        station.scoordinate.x
-      ];
-
-      let fillChar = station.pcode ? '#' : '&nbsp;';
-
-      let icon = L.divIcon({
-        html: '<div class="marker"><div style="background-color: ' + this.stationTypes[station.stype] + '">' + fillChar + '</div></div>',
-        iconSize: L.point(25, 25)
-      });
-
-      let popupCont = '<div class="popup"><b>' + station.sname + '</b><br /><i>' + station.stype + '</i>';
-      popupCont += '<table>';
-      Object.keys(station.smetadata).forEach(key => {
-        let value = station.smetadata[key];
-        if (value) {
-          popupCont += '<tr>';
-          popupCont += '<td>' + key + '</td>';
-          if (value instanceof Object) {
-            let act_value = value[this.language];
-            if (typeof act_value === 'undefined') {
-              act_value = value[this.language_default];
-            } 
-            if (typeof act_value === 'undefined') {
-              act_value = '<pre style="background-color: lightgray">' + JSON.stringify(value, null, 2) + '</pre>';
-            } 
-            popupCont += '<td><div class="popupdiv">' + act_value + '</div></td>';
-          } else {
-            popupCont += '<td>' + value + '</td>';
-          } 
-          popupCont += '</tr>';
+  
+    if(this.propDomain == "mobility"){
+      await this.fetchStations(this.propStationTypes);
+       
+      this.nodes.map(station => {
+  
+        if (! (station.stype in this.stationTypes)) {
+          let cnt = Object.keys(this.stationTypes).length
+          this.stationTypes[station.stype] = rainbow(4000, Math.random() * 4000);
         }
-      });
-      popupCont += '</table></div>';
+  
+        const pos = [
+          station.scoordinate.y, 
+          station.scoordinate.x
+        ];
+  
+        let fillChar = station.pcode ? '#' : '&nbsp;';
+  
+        let icon = L.divIcon({
+          html: '<div class="marker"><div style="background-color: ' + this.stationTypes[station.stype] + '">' + fillChar + '</div></div>',
+          iconSize: L.point(25, 25)
+        });
+  
+        let popupCont = '<div class="popup"><b>' + station.sname + '</b><br /><i>' + station.stype + '</i>';
+        popupCont += '<table>';
+        Object.keys(station.smetadata).forEach(key => {
+          let value = station.smetadata[key];
+          if (value) {
+            popupCont += '<tr>';
+            popupCont += '<td>' + key + '</td>';
+            if (value instanceof Object) {
+              let act_value = value[this.language];
+              if (typeof act_value === 'undefined') {
+                act_value = value[this.language_default];
+              } 
+              if (typeof act_value === 'undefined') {
+                act_value = '<pre style="background-color: lightgray">' + JSON.stringify(value, null, 2) + '</pre>';
+              } 
+              popupCont += '<td><div class="popupdiv">' + act_value + '</div></td>';
+            } else {
+              popupCont += '<td>' + value + '</td>';
+            } 
+            popupCont += '</tr>';
+          }
+        });
+        popupCont += '</table></div>';
+  
+        let popup = L.popup().setContent(popupCont);
+  
+        let marker = L.marker(pos, {
+          icon: icon,
+        }).bindPopup(popup);
+  
+        columns_layer_array.push(marker);
+      });      
+    }
+      
+    if(this.propDomain == "tourism")
+    {
+      await this.fetchActivities();
 
-      let popup = L.popup().setContent(popupCont);
-
-      let marker = L.marker(pos, {
-        icon: icon,
-      }).bindPopup(popup);
-
-      columns_layer_array.push(marker);
+    
+      this.nodes.map(activity => {
+                
+        if(activity.GpsInfo && activity.GpsInfo.length > 0)
+        {
+              const pos = [
+                activity.GpsInfo[0].Latitude, 
+                activity.GpsInfo[0].Longitude
+              ];
+                
+              let fillChar = '#'; //station.pcode ? '#' : '&nbsp;';
+  
+              let icon = L.divIcon({
+                html: '<div class="marker"><div style="background-color: red">' + fillChar + '</div></div>',
+                iconSize: L.point(25, 25)
+              });
+  
+              let popupCont = '<div class="popup"><b>' + activity.Detail['de'].Title + '</b><br /><i>' + activity.Type + '</i>';
+              popupCont += '<table>';
+              popupCont += '<tr>';
+              popupCont += '<td>' + activity.Detail['de'].BaseText + '</td>';
+              popupCont += '</tr>';
+              popupCont += '</table></div>';
+  
+              let popup = L.popup().setContent(popupCont);
+  
+              let marker = L.marker(pos, {
+                icon: icon,
+              }).bindPopup(popup);
+  
+              columns_layer_array.push(marker);
+      }          
     });
+  }
 
-    this.visibleStations = columns_layer_array.length;
+    this.visibleNodes = columns_layer_array.length;
     let columns_layer = L.layerGroup(columns_layer_array, {});
 
     /** Prepare the cluster group for station markers */
