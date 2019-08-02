@@ -30,7 +30,7 @@ export async function fetchStations(type) {
 			distinct: true
 		})
 		.then(response => {
-			this.stations = response.data;
+			this.nodes = response.data;
 		})
 		.catch(e => {
 			console.log(e)
@@ -43,7 +43,7 @@ export async function fetchActivities() {
 			pagesize: 12000 //12000
 		})
 		.then(response => {			
-			this.activities = response.Items;
+			this.nodes = response.Items;
 		})
 		.catch(e => {
 			console.log(e)
