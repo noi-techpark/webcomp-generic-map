@@ -2,7 +2,7 @@
   "title": "Generic Map",
   "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
-  "license": "AGPL-3.0-or-later",
+  "license": "AGPL-3.0",
   "authors": [
     {
       "name": "NOI",
