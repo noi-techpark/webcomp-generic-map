@@ -1,4 +1,4 @@
-# Generic Map to show Open Data Hub Mobility Stations
+# webcomp-generic-map
 
 This project is a webcomponent to display data from the [Open Data
 Hub](https://opendatahub.bz.it).
@@ -8,103 +8,163 @@ components to display data from the Open Data Hub easily. Using these
 webcomponents, a developer can easily integrate the functionality of the single
 components into any website. 
 
-## Choices
+## Table of contents
 
-To create more structured and mantainable webcomponents we used
-[Polymer](https://www.polymer-project.org/), more specifically the
-[lit-element](https://lit-element.polymer-project.org/) implementation.
+- [Usage](#usage)
+- [Gettings started](#getting-started)
+- [Deployment](#deployment)
+- [Docker environment](#docker-environment)
+- [Information](#information)
 
-Using [lerna](https://github.com/lerna/lerna) we can manage all the components
-from a single repository, while still being able to publish single packages
+## Usage
 
-CSS styles are transpiled using [Sass](https://sass-lang.com/).
+Include the Javascript file `dist/map_widget.min.js` in your HTML and define the web component like this:
 
-We are using [Webpack](https://webpack.js.org/) to create the bundles.
+```html
+<map-widget domain="mobility"></map-widget>
+```
 
-## Getting Started
+### Attributes
+
+#### domain
+
+Type: select
+Options: "mobility", "tourism"
+Default: "mobility"
+
+#### station-types
+
+Type: multiselect
+Options: "CreativeIndustry","EChargingStation","EChargingPlug"
+Default: []
+
+## Getting started
+
+These instructions will get you a copy of the project up and running
+on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-To work on the project, you'll need global installations of:
+To build the project, the following prerequisites must be met:
 
-- Node (v11.9.0)
-- Yarn (v1.15.2)
-- Lerna (v3.6)
+- Node 12 / Yarn 1
 
-Later versions of the same tools should also work.
+For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section.
 
-Or, alternatively, `docker-compose` to setup your docker environment, such that
-you do not need to install these dependencies on your local machine.
+### Source code
 
-### Development
+Get a copy of the repository:
 
-Build and start your docker environment with
-
-```shell
-docker-compose build
-docker-compose up
+```bash
+git clone https://github.com/noi-techpark/webcomp-generic-map.git
 ```
 
-Then, login to your running docker instance with
+Change directory:
 
-```shell
-docker-compose run app bash
+```bash
+cd webcomp-generic-map/
 ```
 
-Within the docker container, install yarn project's dependencies
+### Dependencies
 
-```shell
-yarn
+Download all dependencies:
+
+```bash
+yarn install
 ```
 
-To install all the dependencies of all the packages through Lerna, run:
+### Build
 
-```shell
-lerna bootstrap
+Build and start the project:
+
+```bash
+yarn run watch
 ```
 
-Start the Lerna pipeline with:
-
-```shell
-yarn wc
-```
-
-This will watch the files in every package configured in the right way to create a Webpack bundle.
-
-### Production
-
-Build all widgets using Webpack's `production` config:
-
-```shell
-yarn bc
-```
-
-The destination for the resulting code will be the `dist` folder, located at the root of the project.
-
-## Development results
-
-To see the source of components in action while working on, go to the `work` folder. 
-
-To start a development web server, run the following snippet. However, `docker-compose up` already starts this command for you.
-
-```shell
-sh serve.sh
-```
-
-This will serve the "work in progress" website at [http://0.0.0.0:8888/](http://0.0.0.0:8888/).
+The application will be served and can be accessed at [http://localhost:8080](http://localhost:8080).
 
 ## Deployment
 
-To deploy the webcomponents, take the production bundle created with the `yarn bc` command and use it as a normal javascript.
+To create the distributable files, execute the following command:
 
-We suggest deploying them on a CDN, rather than hardcoding them inside a project, so that future fixes and enhancements of the webcomponents are more easily distributed.
-
-Currenlty, we use [jsDelivr's Github integration](https://www.jsdelivr.com/?docs=gh) for that:
-
-```javascript
-<script src="https://cdn.jsdelivr.net/gh/noi-techpark/webcomp-generic-map@master/dist/map_widget.min.js"></script>
+```bash
+yarn run build
 ```
 
-## License
+## Docker environment
 
-See LICENSE.md
+For the project a Docker environment is already prepared and ready to use with all necessary prerequisites.
+
+These Docker containers are the same as used by the continuous integration servers.
+
+### Installation
+
+Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally on your machine.
+
+### Dependenices
+
+First, install all dependencies:
+
+```bash
+docker-compose run --rm app /bin/bash -c "yarn install"
+```
+
+### Start and stop the containers
+
+Before start working you have to start the Docker containers:
+
+```
+docker-compose up --build --detach
+```
+
+After finished working you can stop the Docker containers:
+
+```
+docker-compose stop
+```
+
+### Running commands inside the container
+
+When the containers are running, you can execute any command inside the environment. Just replace the dots `...` in the following example with the command you wish to execute:
+
+```bash
+docker-compose run --rm app /bin/bash -c "..."
+```
+
+Some examples are:
+
+```bash
+docker-compose run --rm app /bin/bash -c "yarn run build"
+```
+
+## Information
+
+### Support
+
+For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+
+### Contributing
+
+If you'd like to contribute, please follow the following instructions:
+
+- Fork the repository.
+
+- Checkout a topic branch from the `development` branch.
+
+- Make sure the tests are passing.
+
+- Create a pull request against the `development` branch.
+
+A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
+
+### Documentation
+
+More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
+
+### Boilerplate
+
+The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/webcomp-boilerplate).
+
+### License
+
+The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.

@@ -1,5 +1,0 @@
-FROM node:11.15-slim
-
-RUN npm i -g lerna
-RUN apt-get update && apt-get install -y tree python3
-RUN yarn
