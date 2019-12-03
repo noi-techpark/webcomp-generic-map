@@ -1,12 +1,10 @@
 {
   "name": "webcomp-generic-map",
-  "version": "1.0.0",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "setup": "lerna bootstrap",
     "build": "lerna run --parallel --stream build",
     "watch": "lerna run --parallel --stream watch",
     "demo": "lerna run --parallel --stream demo"
