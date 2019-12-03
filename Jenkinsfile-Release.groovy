@@ -15,6 +15,11 @@ pipeline {
     }
 
     stages {
+        stage('Clean') {
+            steps {
+                sh 'rm -rf dist'
+            }
+        }
         stage('Dependencies') {
             steps {
                 sh 'yarn install'
@@ -32,7 +37,9 @@ pipeline {
                         sh 'git remote set-url origin ${GIT_REPOSITORY}'
                         sh 'git add -A'
                         sh 'git commit -m "Verion ${VERSION}"'
+                        sh 'git tag -s -a ${VERSION} -m "Version ${VERSION}"'
                         sh 'git push origin HEAD:master'
+                        sh 'git push origin --tags'
                     }
                 }
             }

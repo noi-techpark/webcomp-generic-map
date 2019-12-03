@@ -163,7 +163,7 @@ More documentation can be found at [https://opendatahub.readthedocs.io/en/latest
 
 ### Boilerplate
 
-The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/webcomp-boilerplate).
+The project uses this boilerplate: [https://github.com/noi-techpark/webcomp-boilerplate](https://github.com/noi-techpark/webcomp-boilerplate).
 
 ### License
 
