@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'docker/Dockerfile'
-            additionalBuildArgs '--build-arg JENKINS_USER_ID=`id -u jenkins` --build-arg JENKINS_GROUP_ID=`id -g jenkins`'
-        }
-    }
+    agent any
 
     parameters {
         string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version')
@@ -16,22 +11,42 @@ pipeline {
 
     stages {
         stage('Clean') {
+            agent {
+                dockerfile {
+                    filename 'docker/Dockerfile'
+                    additionalBuildArgs '--build-arg JENKINS_USER_ID=`id -u jenkins` --build-arg JENKINS_GROUP_ID=`id -g jenkins`'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'rm -rf dist'
             }
         }
         stage('Dependencies') {
+            agent {
+                dockerfile {
+                    filename 'docker/Dockerfile'
+                    additionalBuildArgs '--build-arg JENKINS_USER_ID=`id -u jenkins` --build-arg JENKINS_GROUP_ID=`id -g jenkins`'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'yarn install'
             }
         }
         stage('Build') {
+            agent {
+                dockerfile {
+                    filename 'docker/Dockerfile'
+                    additionalBuildArgs '--build-arg JENKINS_USER_ID=`id -u jenkins` --build-arg JENKINS_GROUP_ID=`id -g jenkins`'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'yarn run build'
             }
         }
         stage('Git Tag') {
-            agent any
             steps {
                 ansiColor('xterm') {
                     sshagent (credentials: ['jenkins_github_ssh_key']) {
