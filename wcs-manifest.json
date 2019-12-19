@@ -2,11 +2,17 @@
   "title": "Generic Map",
   "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
-  "license": "AGPL-3.0",
-  "authors": [
-    {
+  "license": "AGPL-3.0-or-later",
+  "licenseHolder": {
       "name": "NOI",
       "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+  },
+  "authors": [
+    {
+      "name": "Peter Moser",
+      "email": "p.moser@noi.bz.it",
       "organization": "NOI S.p.A",
       "organizationUrl": "https://noi.bz.it"
     }
