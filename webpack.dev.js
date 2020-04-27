@@ -2,10 +2,10 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './map_widget.js',
+  entry: './src/index.js',
   watch: true,
   output: {
-    path: path.resolve(__dirname, '../../work/scripts'),
+    path: path.resolve(__dirname, './work/scripts'),
     filename: 'map_widget.js'
   },
   devtool: 'inline-source-map',
@@ -31,5 +31,11 @@ module.exports = {
         loader: 'svg-inline-loader'
       }
     ]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'work'),
+    compress: true,
+    writeToDisk: true,
+    port: 8000
   }
 };
