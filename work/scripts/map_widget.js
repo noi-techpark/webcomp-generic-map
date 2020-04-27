@@ -22125,7 +22125,7 @@ process.umask = function() { return 0; };
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-	API_BASE_URL: 'https://ipchannels.integreen-life.bz.it/ninja/api/v2'
+	API_BASE_URL: 'https://mobility.api.opendatahub.bz.it/v2'
 });
 
 
