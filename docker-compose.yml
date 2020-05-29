@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/code
     working_dir: /code
-    command: yarn start
+    command: sh -c "test -d node_modules || yarn; yarn start"
   serve:
     image: python:3.6-alpine
     volumes:
@@ -15,3 +15,4 @@ services:
     ports:
       - "8999:8000"
     tty: true
+  

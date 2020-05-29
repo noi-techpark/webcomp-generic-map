@@ -43,9 +43,37 @@
       {
         "key": "station-types",
         "type": "multiselect",
+        "required": false,
         "options": {
-          "values": ["CreativeIndustry","EChargingStation","EChargingPlug"],
-          "default": []
+          "values": [
+            "Bicycle",
+            "Bicyclestationbay",
+            "BikesharingStation",
+            "BluetoothStation",
+            "CarpoolingHub",
+            "CarpoolingService",
+            "CarpoolingUser",
+            "CarsharingCar",
+            "CarsharingStation",
+            "Covid-19",
+            "CreativeIndustry",
+            "EChargingPlug",
+            "EChargingStation",
+            "EnvironmentStation",
+            "LinkStation",
+            "MeteoStation",
+            "Mobilestation",
+            "NOI-Place",
+            "ParkingSensor",
+            "ParkingStation",
+            "RWISstation",
+            "Streetstation",
+            "traffic",
+            "TrafficSensor",
+            "Trafficstation",
+            "TrafficStreetFactor",
+            "VMS"
+          ]
         }
       }
     ]
