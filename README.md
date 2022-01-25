@@ -3,6 +3,8 @@
 This project is a webcomponent to display data from the [Open Data
 Hub](https://opendatahub.bz.it).
 
+[![CI](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/ci.yml)
+
 The Open Data Hub Team wants to generate reusable and independent visualization
 components to display data from the Open Data Hub easily. Using these
 webcomponents, a developer can easily integrate the functionality of the single
