@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: webcomp-parking
+Upstream-Contact: (c) 2021 Peter Moser <p.moser@noi.bz.it>
+Source: https://github.com/noi-techpark/webcomp-parking
+
+Files: src/* work/* dist/*.js odh-*.js
+Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
+License: AGPL-3.0-or-later
+
+Files: infrastructure/* .editorconfig .gitignore *.md *.txt .env.* *.yml *.json yarn.lock webpack.* wcs-logo.png
+Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
+License: CC0-1.0
