@@ -27,7 +27,8 @@ export async function fetchStations(type) {
 			limit: -1,
 			select: "scode,stype,sname,sorigin,scoordinate,smetadata,pcode",
 			where: "scoordinate.neq.null,sactive.eq.true",
-			distinct: true
+			distinct: true,
+			origin: config.ORIGIN
 		})
 		.then(response => {
 			this.stations = response.data;
