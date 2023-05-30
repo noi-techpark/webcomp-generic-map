@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { html, LitElement } from 'lit-element';
 import L from 'leaflet';
 import leaflet_mrkcls from 'leaflet.markercluster';

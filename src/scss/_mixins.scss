@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 @mixin map_dimensions_tns() {
   -webkit-transition: height 0.35s ease-out, width 0.35s ease;
   -moz-transition: height 0.35s ease-out, width 0.35s ease;
