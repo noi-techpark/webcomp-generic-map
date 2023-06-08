@@ -9,6 +9,7 @@ SPDX-License-Identifier: CC0-1.0
 This project is a webcomponent to display data from the [Open Data
 Hub](https://opendatahub.bz.it).
 
+![REUSE Compliance](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/reuse.yml/badge.svg)
 [![CI/CD](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/main.yml)
 
 The Open Data Hub Team wants to generate reusable and independent visualization
