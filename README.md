@@ -7,7 +7,7 @@ SPDX-License-Identifier: CC0-1.0
 # webcomp-generic-map
 
 This project is a webcomponent to display data from the [Open Data
-Hub](https://opendatahub.bz.it).
+Hub](https://opendatahub.com).
 
 ![REUSE Compliance](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/reuse.yml/badge.svg)
 [![CI/CD](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-generic-map/actions/workflows/main.yml)
@@ -150,7 +150,7 @@ docker-compose run --rm app /bin/bash -c "npm run build"
 
 ### Support
 
-For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [info@opendatahub.com](mailto:info@opendatahub.com).
 
 ### Contributing
 
