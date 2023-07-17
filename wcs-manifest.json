@@ -4,6 +4,7 @@
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
   "license": "AGPL-3.0-or-later",
   "repositoryUrl": "https://github.com/noi-techpark/webcomp-generic-map.git",
+  "shortName": "generic-map",
   "copyrightHolders": [
     {
       "name": "NOI",
