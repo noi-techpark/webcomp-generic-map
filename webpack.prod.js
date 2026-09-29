@@ -14,8 +14,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(s*)css$/,
+        test: /\.scss$/,
         use: [{ loader: 'css-loader' }, { loader: 'sass-loader' }]
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'css-loader' }]
       },
       {
         test: /\.(png|jpg|gif|ttf)$/i,
@@ -33,5 +37,5 @@ module.exports = {
         loader: 'svg-inline-loader'
       }
     ]
-  }
+  },
 };

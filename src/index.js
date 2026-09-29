@@ -5,6 +5,8 @@
 import { html, LitElement } from 'lit-element';
 import L from 'leaflet';
 import leaflet_mrkcls from 'leaflet.markercluster';
+import '@maplibre/maplibre-gl-leaflet';
+import style__maplibre from 'maplibre-gl/dist/maplibre-gl.css';
 import style__leaflet from 'leaflet/dist/leaflet.css';
 import style__markercluster from 'leaflet.markercluster/dist/MarkerCluster.css';
 import style from './scss/main.scss';
@@ -12,9 +14,11 @@ import { getStyle, rainbow } from './utils.js';
 import { fetchStations } from './api/ninjaApi.js';
 
 
-class MapWidget extends LitElement {
+class MapWidget extends LitElement
+{
 
-  static get properties() {
+  static get properties()
+  {
     return {
       propStationTypes: {
         type: String,
@@ -23,14 +27,15 @@ class MapWidget extends LitElement {
     };
   }
 
-  constructor() {
+  constructor()
+  {
     super();
 
     /* Map configuration */
     this.map_center = [46.479, 11.331];
     this.map_zoom = 9;
-    this.map_layer = "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png";
-    this.map_attribution = '<a target="_blank" href="https://opendatahub.com">OpenDataHub.com</a> | &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a target="_blank" href="https://carto.com/attribution">CARTO</a>';
+    this.map_layer = "https://tiles.openfreemap.org/styles/positron";
+    this.map_attribution = '<a target="_blank" href="https://opendatahub.com">OpenDataHub.com</a> | &copy; <a target="_blank" href="https://openfreemap.org">OpenFreeMap</a> &copy; <a target="_blank" href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
     /* Internationalization */
     this.language_default = 'en';
@@ -50,32 +55,39 @@ class MapWidget extends LitElement {
     this.fetchStations = fetchStations.bind(this);
   }
 
-  async initializeMap() {
+  async initializeMap()
+  {
     let root = this.shadowRoot;
     let mapref = root.getElementById('map');
 
-    this.map = L.map(mapref, { 
-      zoomControl: false 
+    this.map = L.map(mapref, {
+      zoomControl: false,
+      minZoom: 0,
+      maxZoom: 19
     }).setView(this.map_center, this.map_zoom);
 
-    L.tileLayer(this.map_layer, {
+    L.maplibreGL({
+      style: this.map_layer,
       attribution: this.map_attribution
     }).addTo(this.map);
   }
 
-  async drawMap() {
+  async drawMap()
+  {
     await this.fetchStations(this.propStationTypes);
     let columns_layer_array = [];
 
-    this.stations.map(station => {
+    this.stations.map(station =>
+    {
 
-      if (! (station.stype in this.stationTypes)) {
+      if (!(station.stype in this.stationTypes))
+      {
         let cnt = Object.keys(this.stationTypes).length
         this.stationTypes[station.stype] = rainbow(4000, Math.random() * 4000);
       }
 
       const pos = [
-        station.scoordinate.y, 
+        station.scoordinate.y,
         station.scoordinate.x
       ];
 
@@ -88,23 +100,29 @@ class MapWidget extends LitElement {
 
       let popupCont = '<div class="popup"><b>' + station.sname + '</b><br /><i>' + station.stype + '</i>';
       popupCont += '<table>';
-      Object.keys(station.smetadata).forEach(key => {
+      Object.keys(station.smetadata).forEach(key =>
+      {
         let value = station.smetadata[key];
-        if (value) {
+        if (value)
+        {
           popupCont += '<tr>';
           popupCont += '<td>' + key + '</td>';
-          if (value instanceof Object) {
+          if (value instanceof Object)
+          {
             let act_value = value[this.language];
-            if (typeof act_value === 'undefined') {
+            if (typeof act_value === 'undefined')
+            {
               act_value = value[this.language_default];
-            } 
-            if (typeof act_value === 'undefined') {
+            }
+            if (typeof act_value === 'undefined')
+            {
               act_value = '<pre style="background-color: lightgray">' + JSON.stringify(value, null, 2) + '</pre>';
-            } 
+            }
             popupCont += '<td><div class="popupdiv">' + act_value + '</div></td>';
-          } else {
+          } else
+          {
             popupCont += '<td>' + value + '</td>';
-          } 
+          }
           popupCont += '</tr>';
         }
       });
@@ -126,7 +144,8 @@ class MapWidget extends LitElement {
     this.layer_columns = new L.MarkerClusterGroup({
       showCoverageOnHover: false,
       chunkedLoading: true,
-      iconCreateFunction: function(cluster) {
+      iconCreateFunction: function (cluster)
+      {
         return L.divIcon({
           html: '<div class="marker_cluster__marker">' + cluster.getChildCount() + '</div>',
           iconSize: L.point(36, 36)
@@ -140,16 +159,19 @@ class MapWidget extends LitElement {
 
   }
 
-  async firstUpdated() {
+  async firstUpdated()
+  {
     this.initializeMap();
     this.drawMap();
   }
 
-  render() {
+  render()
+  {
     return html`
       <style>
         ${getStyle(style__markercluster)}
         ${getStyle(style__leaflet)}
+        ${getStyle(style__maplibre)}
         ${getStyle(style)}
       </style>
       <div id="map_widget">
@@ -159,6 +181,7 @@ class MapWidget extends LitElement {
   }
 }
 
-if (!window.customElements.get('map-widget')) {
+if (!window.customElements.get('map-widget'))
+{
   window.customElements.define('map-widget', MapWidget);
 }
